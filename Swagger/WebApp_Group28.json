@@ -1,0 +1,2356 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Web Applications - Auction App",
+    "description": "The following page will show the development of an auction app with their given APIs in RESTFull fashion.\n\nAna Araújo - 59457\n\nAndré Dias – 59452\n\nTiago Rodrigues - 49593\n\nWeb Aplications - 2022/2023 ",
+    "version": "1.0.11"
+  },
+  "tags": [
+    {
+      "name": "Users",
+      "description": "API for managing users"
+    },
+    {
+      "name": "Authentication",
+      "description": "API for managing the authentication process"
+    },
+    {
+      "name": "Items",
+      "description": "API for managing the items"
+    },
+    {
+      "name": "Auction Creation",
+      "description": "API for managing items' auctions"
+    },
+    {
+      "name": "Bidding",
+      "description": "API for managing bidding"
+    },
+    {
+      "name": "Payment",
+      "description": "API for managing payments"
+    },
+    {
+      "name": "Categories",
+      "description": "API for managing auctions' categories"
+    },
+    {
+      "name": "Delivery",
+      "description": "API for managing deliveries"
+    },
+    {
+      "name": "Recommendations",
+      "description": "API for managing items' recommendations"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get the information of all the users",
+        "description": "Obtain a list with the information of all the users currently registered",
+        "operationId": "getAllUsers",
+        "responses": {
+          "200": {
+            "description": "List of users retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListofUsers"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListofUsers"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error: No users were found"
+          },
+          "500": {
+            "description": "Internal Server Error: No users found"
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get the information of a specific user",
+        "description": "Get the information of a given user, identified by its user_id",
+        "operationId": "getUserByID",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "The user_id that needs to be fetched",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User found successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user_id supplied"
+          },
+          "404": {
+            "description": "user_id not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create or update a user",
+        "description": "Create a new user or update account information of a specific user",
+        "operationId": "createUpdateUser",
+        "parameters": [
+          {
+            "name": "user_id",
+            "description": "The user_id that must be provided",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "username",
+            "description": "The username that must be provided",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "description": "The password that must be provided",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "firstName",
+            "description": "The user first name that must be provided",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lastName",
+            "description": "The user last name that must be provided",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "description": "The user email that must be provided",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dateofBirth",
+            "description": "The user date of birth that must be provided",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "phoneNumber",
+            "description": "The user phone number that may be provided",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "address",
+            "description": "The user address that may be provided",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "paymentInformation",
+            "description": "The user payment information that may be provided",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Information required by the API to perform the PUT operation successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MandatoryUserInfo"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/MandatoryUserInfo"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/MandatoryUserInfo"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User created or updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user information supplied"
+          },
+          "404": {
+            "description": "Could not create or update user"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Delete the account of a specific user",
+        "description": "Delete the account of a specific user, identified by its user_id",
+        "operationId": "deleteUser",
+        "parameters": [
+          {
+            "name": "user_id",
+            "description": "The user_id that must be provided",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deleted successfully"
+          },
+          "400": {
+            "description": "Invalid user_id provided"
+          },
+          "404": {
+            "description": "Error: could not delete user"
+          }
+        }
+      }
+    },
+    "/authentication": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Get the authentication details of all users",
+        "description": "Obtain a list with the authentication details of all the users currently registered",
+        "operationId": "getautUsers",
+        "responses": {
+          "200": {
+            "description": "Authentication details of all users retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListofAuthentications"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListofAuthentications"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error: No users were found"
+          },
+          "500": {
+            "description": "Internal Server Error: No users found"
+          }
+        }
+      }
+    },
+    "/authentication/{user_id}": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Show the authentication details of a specific user",
+        "description": "Get the authentication details of a given user, identified by its user_id",
+        "operationId": "getautByID",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "The user_id that must be provided",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authentication details of the provided user retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationOutput"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user_id supplied"
+          },
+          "404": {
+            "description": "user_id not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Create a new user authentication or update its authentication status",
+        "description": "Login or logout a user, identified by its user_id, by updating their authentication details. If it does not yet exist, create a new user authentication",
+        "operationId": "createUpdateAut",
+        "parameters": [
+          {
+            "name": "user_id",
+            "description": "The user_id that must be provided",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "username",
+            "description": "The username of the user that must be provided",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "description": "The password of the user that must be provided",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Information required by the API to perform the PUT operation successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthenticationUpdate"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthenticationUpdate"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthenticationUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User status updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationOutput"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid login information supplied"
+          },
+          "404": {
+            "description": "Could not create or update user authentication"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Remove user from authentication list",
+        "description": "Removes a user from the authentication list, identified by its user_id",
+        "operationId": "deleteAutUser",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "The user_id that must be provided",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User authentication deleted successfully"
+          },
+          "400": {
+            "description": "Invalid user_id provided"
+          },
+          "404": {
+            "description": "Error: could not delete user authentication"
+          }
+        }
+      }
+    },
+    "/items": {
+      "get": {
+        "tags": [
+          "Items"
+        ],
+        "summary": "Get the details of all the items",
+        "description": "Obtain a list with the details of all the items that are currently registered",
+        "operationId": "getAllitems",
+        "responses": {
+          "200": {
+            "description": "Details of all the items retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListofItems"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListofItems"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error: No items were found"
+          },
+          "500": {
+            "description": "Internal Server Error: No items found"
+          }
+        }
+      }
+    },
+    "/items/{item_id}": {
+      "get": {
+        "tags": [
+          "Items"
+        ],
+        "summary": "Get the details of a specific item",
+        "description": "Get the details of a given item, identified by its item_id",
+        "operationId": "getitemID",
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "description": "The item_id that must be provided",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of the provided item retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Item"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Item"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid item_id supplied"
+          },
+          "404": {
+            "description": "item_id not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Items"
+        ],
+        "summary": "Create or update an item",
+        "description": "Create a new item or update item details of a specific item",
+        "operationId": "createUpdateItem",
+        "parameters": [
+          {
+            "name": "seller_id",
+            "description": "The user_id of the seller that must be provided",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "item_id",
+            "description": "The item_id that must be provided",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "itemName",
+            "description": "The name of the item that must be provided",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "itemDetails",
+            "description": "The details of the item that may be provided",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Information required by the API to perform the PUT operation successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MandatoryItems"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/MandatoryItems"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/MandatoryItems"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Item created or updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Item"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Item"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid item information supplied"
+          },
+          "404": {
+            "description": "Could not create or update item"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Items"
+        ],
+        "summary": "Delete an item",
+        "description": "Removes an item from the item list, identified by its item_id",
+        "operationId": "deleteitem",
+        "parameters": [
+          {
+            "name": "item_id",
+            "description": "The item_id that must be provided",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Item deleted successfully"
+          },
+          "400": {
+            "description": "Invalid item_id provided"
+          },
+          "404": {
+            "description": "Error: could not delete item"
+          }
+        }
+      }
+    },
+    "/auctions": {
+      "get": {
+        "tags": [
+          "Auction Creation"
+        ],
+        "summary": "Get the details of all auctions",
+        "description": "Obtain a list with the details of all the auctions that are currently ongoing",
+        "operationId": "getAllauctions",
+        "responses": {
+          "200": {
+            "description": "Details of all ongoing auctions retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListofAuctions"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListofAuctions"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error: No auctions were found"
+          },
+          "500": {
+            "description": "Internal Server Error: No auctions found"
+          }
+        }
+      }
+    },
+    "/auctions/{auction_id}/items/{item_id}": {
+      "get": {
+        "tags": [
+          "Auction Creation"
+        ],
+        "summary": "Get the details of a specific auction",
+        "description": "Obtain the details of a specific auction of a given item that is currently ongoing",
+        "operationId": "getAuctionitemID",
+        "parameters": [
+          {
+            "name": "auction_id",
+            "in": "path",
+            "description": "The auction_id that must be provided",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "item_id",
+            "in": "path",
+            "description": "The item_id that must be provided",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of the provided auction retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Auction_Creation"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Auction_Creation"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid auction_id or item_id supplied"
+          },
+          "404": {
+            "description": "item_id or auction_id not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Auction Creation"
+        ],
+        "summary": "Create or update an auction",
+        "description": "Create a new auction or update the details of the auction of a specific item",
+        "operationId": "createUpdateAuction",
+        "parameters": [
+          {
+            "name": "seller_id",
+            "description": "The user_id of the seller that must be provided",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "auction_id",
+            "description": "The auction_id that must be provided",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "item_id",
+            "description": "The item_id that must be provided",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "itemName",
+            "description": "The name of the item to auction that must be provided",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "description": "The category of the item to auction that must be provided",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startingPrice",
+            "description": "The starting price of the item that must be provided",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "stock",
+            "description": "The stock of the item to auction that must be provided",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "auctionEndTime",
+            "description": "The end time of the auction that must be provided",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Information required by the API to perform the PUT operation successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MandatoryAuction"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/MandatoryAuction"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/MandatoryAuction"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Auction created or updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Auction_Creation"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Auction_Creation"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid auction information supplied"
+          },
+          "404": {
+            "description": "Could not create or update auction"
+          }
+        }
+      }
+    },
+    "/auctions/{auction_id}": {
+      "delete": {
+        "tags": [
+          "Auction Creation"
+        ],
+        "summary": "Delete an auction",
+        "description": "Removes an auction from the item list, identified by its auction_id",
+        "operationId": "deleteauction",
+        "parameters": [
+          {
+            "name": "auction_id",
+            "description": "The auction_id that must be provided",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Auction deleted successfully"
+          },
+          "400": {
+            "description": "Invalid auction_id provided"
+          },
+          "404": {
+            "description": "Error: could not delete auction"
+          }
+        }
+      }
+    },
+    "/bids/{bid_id}/auctions/{auction_id}": {
+      "get": {
+        "tags": [
+          "Bidding"
+        ],
+        "summary": "Get current bid of an auction",
+        "description": "Obtain the current bid of a specific auction that is currently ongoing",
+        "operationId": "getBidItem",
+        "parameters": [
+          {
+            "name": "bid_id",
+            "in": "path",
+            "description": "The bid_id that must be provided",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "auction_id",
+            "in": "path",
+            "description": "The auction_id that must be provided",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current bid of the provided auction retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Bidding"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Bidding"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid auction_id or bid_id supplied"
+          },
+          "404": {
+            "description": "bid_id or auction_id not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Bidding"
+        ],
+        "summary": "Create or update bids",
+        "description": "Create or update the current bid of a given ongoing auction",
+        "operationId": "createUpdateBidding",
+        "parameters": [
+          {
+            "name": "buyer_id",
+            "in": "query",
+            "description": "The user_id of the buyer that must be provided",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "bid_id",
+            "in": "path",
+            "description": "The bid_id that must be provided",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "auction_id",
+            "description": "The auction_id that must be provided",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "bidValue",
+            "in": "query",
+            "description": "The bid value that must be provided",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Information required by the API to perform the PUT operation successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MandatoryBidding"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/MandatoryBidding"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/MandatoryBidding"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Bid placed successfully on the provided auction",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Bidding"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Bidding"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid bidding or auction information supplied"
+          },
+          "404": {
+            "description": "Could not create or update bid"
+          }
+        }
+      }
+    },
+    "/bids/{current_bid}": {
+      "delete": {
+        "tags": [
+          "Bidding"
+        ],
+        "summary": "Delete a bid",
+        "description": "Removes a bid that is currently placed in a given auction, identified by its bid_id",
+        "operationId": "deletebid",
+        "parameters": [
+          {
+            "name": "current_bid",
+            "description": "The bid_id that must be provided",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Bid deleted successfully"
+          },
+          "400": {
+            "description": "Invalid bid_id provided"
+          },
+          "404": {
+            "description": "Error: could not delete bid"
+          }
+        }
+      }
+    },
+    "/payments": {
+      "get": {
+        "tags": [
+          "Payment"
+        ],
+        "summary": "Get the information of all payments",
+        "description": "View the payment history of items bought of a given user",
+        "operationId": "getPayItem",
+        "responses": {
+          "200": {
+            "description": "Payment history retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListofPayments"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListofPayments"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error: No payments were found"
+          },
+          "500": {
+            "description": "Internal Server Error: No payments found"
+          }
+        }
+      }
+    },
+    "/payments/{payment_id}/auctions/{auction_id}": {
+      "get": {
+        "tags": [
+          "Payment"
+        ],
+        "summary": "Get the payment information of a given auction",
+        "description": "View the payment information of an item bought by a given user",
+        "operationId": "getpayitem",
+        "parameters": [
+          {
+            "name": "payment_id",
+            "description": "The payment_id that must be provided",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "auction_id",
+            "description": "The auction_id that must be provided",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payment information of the provided auction retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Payment"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Payment"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid payment_id supplied"
+          },
+          "404": {
+            "description": "payment_id not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Payment"
+        ],
+        "summary": "Create or update a payment",
+        "description": "Create the payment information for a given auction or update the payment status",
+        "operationId": "makepay",
+        "parameters": [
+          {
+            "name": "buyer_id",
+            "description": "user_id of the buyer that must be provided",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "seller_id",
+            "description": "user_id of the seller that must be provided",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "payment_id",
+            "description": "The payment_id that must be provided",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "auction_id",
+            "description": "The auction_id that must be provided",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Information required by the API to perform the PUT operation successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MandatoryPayment"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/MandatoryPayment"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/MandatoryPayment"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Payment information created or payment status updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Payment"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Payment"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid payment or auction information supplied"
+          },
+          "404": {
+            "description": "Could not create or update payment"
+          }
+        }
+      }
+    },
+    "/payments/{payment_id}": {
+      "delete": {
+        "tags": [
+          "Payment"
+        ],
+        "summary": "Delete a payment",
+        "description": "Delete a given payment from the history, identified by its payment_id",
+        "operationId": "deletepayment",
+        "parameters": [
+          {
+            "name": "payment_id",
+            "in": "path",
+            "description": "The payment_id that must be provided",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payment deleted successfully"
+          },
+          "400": {
+            "description": "Invalid payment_id provided"
+          },
+          "404": {
+            "description": "Error: could not delete payment"
+          }
+        }
+      }
+    },
+    "/auctions/{auction_id}/categories": {
+      "get": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Get the categories of an auction",
+        "description": "Get the categories of an auction of a specific item, identified by its auction_id",
+        "operationId": "getcatitem",
+        "parameters": [
+          {
+            "name": "auction_id",
+            "description": "The auction_id that must be provided",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Categories of the provided auction retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListofCategories"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListofCategories"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid auction_id supplied"
+          },
+          "404": {
+            "description": "auction_id not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Create or update categories",
+        "description": "Create or update the categories of a given auction, identified by its auction_id",
+        "operationId": "makecat",
+        "parameters": [
+          {
+            "name": "auction_id",
+            "description": "The auction_id that must be provided",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "category_id",
+            "description": "The category_id of the categories that must be provided",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "category",
+            "description": "The categories of the auction that must be provided",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Information required by the API to perform the PUT operation successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MandatoryCategory"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/MandatoryCategory"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/MandatoryCategory"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Categories of the provided auction created or updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid auction or categories information supplied"
+          },
+          "404": {
+            "description": "Could not create or update categories"
+          }
+        }
+      }
+    },
+    "/auctions/{auction_id}/categories/{category_id}": {
+      "delete": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Delete categories",
+        "description": "Delete the a specific category of a given auction, identified by their auction_id and category_id",
+        "operationId": "deletecategory",
+        "parameters": [
+          {
+            "name": "auction_id",
+            "description": "The auction_id that must be provided",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "category_id",
+            "description": "The category_id that must be provided",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Category deleted successfully"
+          },
+          "400": {
+            "description": "Invalid auction_id or category_id provided"
+          },
+          "404": {
+            "description": "Error: could not delete category"
+          }
+        }
+      }
+    },
+    "/deliveries": {
+      "get": {
+        "tags": [
+          "Delivery"
+        ],
+        "summary": "Get the information of all deliveries",
+        "description": "View the delivery history of items bought of a given user",
+        "operationId": "getalldeliv",
+        "responses": {
+          "200": {
+            "description": "Delivery history retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListofDeliveries"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListofDeliveries"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error: No deliveries were found"
+          },
+          "500": {
+            "description": "Internal Server Error: No deliveries found"
+          }
+        }
+      }
+    },
+    "/deliveries/{delivery_id}/items/{item_id}": {
+      "get": {
+        "tags": [
+          "Delivery"
+        ],
+        "summary": "View the delivery information of an item",
+        "description": "Get the delivery information of a specific item, identified by its item_id",
+        "operationId": "getdelitem",
+        "parameters": [
+          {
+            "name": "delivery_id",
+            "in": "path",
+            "description": "The delivery_id that must be provided",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "item_id",
+            "in": "path",
+            "description": "The item_id that must be provided",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payment information of the provided auction retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Delivery"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Delivery"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid delivery_id or item_id supplied"
+          },
+          "404": {
+            "description": "delivery_id or item_id not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Delivery"
+        ],
+        "summary": "Create or update deliveries",
+        "description": "Create or update the delivery information of a given item, identified by its item_id",
+        "operationId": "creatdeliv",
+        "parameters": [
+          {
+            "name": "delivery_id",
+            "description": "The delivery_id that must be provided",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "item_id",
+            "description": "The item_id that must be provided",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "buyerAdress",
+            "description": "The adress of the buyer that must be provided",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "phoneNumber",
+            "description": "The phone number of the buyer that must be provided",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Information required by the API to perform the PUT operation successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MandatoryDelivery"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/MandatoryDelivery"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/MandatoryDelivery"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Delivery of the provided item created or updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Delivery"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Delivery"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid delivery or item information supplied"
+          },
+          "404": {
+            "description": "Could not create or update delivery"
+          }
+        }
+      }
+    },
+    "/users/{user_id}/recommendations": {
+      "get": {
+        "tags": [
+          "Recommendations"
+        ],
+        "summary": "Get the recommendations of a specific user",
+        "description": "Get the recommendations of a specific user, identified by its user_id",
+        "operationId": "getrecom",
+        "parameters": [
+          {
+            "name": "user_id",
+            "description": "The user_id that must be provided",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Recommendations of the provided user retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recommendations"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recommendations"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user_id supplied"
+          },
+          "404": {
+            "description": "user_id not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Recommendations"
+        ],
+        "summary": "Create or update recommendations",
+        "description": "Create or update the recommendations of a specific user, identified by its user_id",
+        "operationId": "putrecom",
+        "parameters": [
+          {
+            "name": "user_id",
+            "description": "The user_id that must be provided",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "recommendations",
+            "description": "The user recommendations that may be provided",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Information required by the API to perform the PUT operation successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MandatoryRecommendation"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/MandatoryRecommendation"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/MandatoryRecommendation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Recommendations of the provided user created or updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recommendations"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recommendations"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user information supplied"
+          },
+          "404": {
+            "description": "Could not create or update recommendations"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Recommendations"
+        ],
+        "summary": "Delete recommendations",
+        "description": "Delete the recommendations of a given user, identified by its user_id",
+        "operationId": "deleterecom",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "The user_id that must be provided",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Recommendations deleted successfully"
+          },
+          "400": {
+            "description": "Invalid user_id provided"
+          },
+          "404": {
+            "description": "Error: could not delete recommendations"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Delivery": {
+        "type": "object",
+        "properties": {
+          "Buyer Address": {
+            "type": "string",
+            "example": "321 Street, Melborow, Washinton"
+          },
+          "Phone number": {
+            "type": "integer",
+            "example": 321345312
+          }
+        }
+      },
+      "Auction_Creation": {
+        "type": "object",
+        "properties": {
+          "seller_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 4
+          },
+          "Item Name": {
+            "type": "string",
+            "example": "Pair of socks"
+          },
+          "Category": {
+            "type": "string",
+            "example": "Clothes"
+          },
+          "Auction Start Time": {
+            "type": "string",
+            "format": "date-time",
+            "example": "01/01/2011 17:32:28"
+          },
+          "Auction End Time": {
+            "type": "string",
+            "format": "date-time",
+            "example": "01/01/2012 17:32:28"
+          },
+          "Stock": {
+            "type": "integer",
+            "format": "int32",
+            "example": 7
+          },
+          "Starting Price": {
+            "type": "number",
+            "example": 4.99
+          }
+        },
+        "xml": {
+          "name": "order"
+        }
+      },
+      "Bidding": {
+        "type": "object",
+        "properties": {
+          "currentBid": {
+            "type": "number",
+            "example": "7.99"
+          }
+        },
+        "xml": {
+          "name": "order"
+        }
+      },
+      "Payment": {
+        "type": "object",
+        "properties": {
+          "Item name": {
+            "type": "string",
+            "example": "Pair of socks"
+          },
+          "Final bid value": {
+            "type": "number",
+            "example": "9.99"
+          },
+          "Seller payment information": {
+            "type": "string",
+            "example": "PayPal"
+          },
+          "Status": {
+            "type": "boolean",
+            "example": true
+          }
+        },
+        "xml": {
+          "name": "order"
+        }
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "example": "Kitchen utensils"
+          },
+          "category_id": {
+            "type": "integer",
+            "example": 555
+          }
+        },
+        "xml": {
+          "name": "category"
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "username": {
+            "type": "string",
+            "example": "theUser"
+          },
+          "password": {
+            "type": "string",
+            "example": "12345"
+          },
+          "firstName": {
+            "type": "string",
+            "example": "John"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "James"
+          },
+          "email": {
+            "type": "string",
+            "example": "john@email.com"
+          },
+          "dateofBirth": {
+            "type": "string",
+            "format": "date",
+            "example": "01/01/2012"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "example": "12345"
+          },
+          "address": {
+            "type": "string",
+            "example": "Jorge Smith Street, 123 Avenue, Washinten City"
+          },
+          "paymentInformation": {
+            "type": "integer",
+            "format": "int64",
+            "example": "123456"
+          }
+        }
+      },
+      "MandatoryUserInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "username": {
+            "type": "string",
+            "example": "theUser"
+          },
+          "password": {
+            "type": "string",
+            "example": "12345"
+          },
+          "firstName": {
+            "type": "string",
+            "example": "John"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "James"
+          },
+          "email": {
+            "type": "string",
+            "example": "john@email.com"
+          },
+          "dateofBirth": {
+            "type": "string",
+            "format": "date",
+            "example": "01/01/2012"
+          }
+        }
+      },
+      "AuthenticationOutput": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "status": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "ListofAuthentications": {
+        "type": "array",
+        "items": {
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/AuthenticationOutput"
+            },
+            {
+              "$ref": "#/components/schemas/AuthenticationOutput"
+            }
+          ]
+        },
+        "xml": {
+          "name": "user"
+        }
+      },
+      "AuthenticationUpdate": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "username": {
+            "type": "string",
+            "example": "theUser"
+          },
+          "password": {
+            "type": "string",
+            "example": "12345"
+          }
+        }
+      },
+      "ListofUsers": {
+        "type": "array",
+        "items": {
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/User"
+            },
+            {
+              "$ref": "#/components/schemas/User"
+            }
+          ]
+        },
+        "xml": {
+          "name": "user"
+        }
+      },
+      "Item": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Pair of socks"
+          },
+          "details": {
+            "type": "string",
+            "example": "color, size, old, new"
+          }
+        }
+      },
+      "ListofItems": {
+        "type": "array",
+        "items": {
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/Item"
+            },
+            {
+              "$ref": "#/components/schemas/Item"
+            }
+          ]
+        }
+      },
+      "ListofAuctions": {
+        "type": "array",
+        "items": {
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/Auction_Creation"
+            },
+            {
+              "$ref": "#/components/schemas/Auction_Creation"
+            }
+          ]
+        }
+      },
+      "MandatoryItems": {
+        "type": "object",
+        "properties": {
+          "seller_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 8
+          },
+          "item_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "name": {
+            "type": "string",
+            "example": "Pair of socks"
+          }
+        }
+      },
+      "MandatoryAuction": {
+        "type": "object",
+        "properties": {
+          "seller_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 6
+          },
+          "auction_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "item_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "Item Name": {
+            "type": "string",
+            "example": "Pair of socks"
+          },
+          "Category": {
+            "type": "string",
+            "example": "Clothes"
+          },
+          "Starting Price": {
+            "type": "number",
+            "example": 4.99
+          },
+          "Stock": {
+            "type": "integer",
+            "example": 5
+          },
+          "Auction End Time": {
+            "type": "string",
+            "format": "date-time",
+            "example": "01/01/2012 12:32:20"
+          }
+        }
+      },
+      "MandatoryBidding": {
+        "type": "object",
+        "properties": {
+          "buyer_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 5
+          },
+          "bid_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "auction_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "Bid Value": {
+            "type": "number",
+            "example": 7.99
+          }
+        }
+      },
+      "ListofPayments": {
+        "type": "array",
+        "items": {
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/Payment"
+            },
+            {
+              "$ref": "#/components/schemas/Payment"
+            }
+          ]
+        }
+      },
+      "MandatoryPayment": {
+        "type": "object",
+        "properties": {
+          "buyer_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 15
+          },
+          "seller_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 5
+          },
+          "payment_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "auction_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          }
+        }
+      },
+      "ListofCategories": {
+        "type": "array",
+        "items": {
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/Category"
+            },
+            {
+              "$ref": "#/components/schemas/Category"
+            }
+          ]
+        }
+      },
+      "MandatoryCategory": {
+        "type": "object",
+        "properties": {
+          "auction_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "category": {
+            "type": "string",
+            "example": "Kitchen utensils"
+          },
+          "category_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 555
+          }
+        }
+      },
+      "ListofDeliveries": {
+        "type": "array",
+        "items": {
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/Delivery"
+            },
+            {
+              "$ref": "#/components/schemas/Delivery"
+            }
+          ]
+        }
+      },
+      "MandatoryDelivery": {
+        "type": "object",
+        "properties": {
+          "delivery_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "item_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "Buyer Address": {
+            "type": "string",
+            "example": "321 Street, Melborow, Washinton"
+          },
+          "Phone number": {
+            "type": "integer",
+            "format": "int64",
+            "example": 321345312
+          }
+        }
+      },
+      "Recommendations": {
+        "type": "object",
+        "properties": {
+          "First recomendation": {
+            "type": "string",
+            "example": "Socks"
+          },
+          "Second recomendation": {
+            "type": "string",
+            "example": "Pants"
+          }
+        }
+      },
+      "MandatoryRecommendation": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "Recomendations": {
+            "type": "string",
+            "example": "Pants, socks"
+          }
+        }
+      }
+    }
+  }
+}
