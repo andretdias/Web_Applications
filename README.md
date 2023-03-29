@@ -10,5 +10,5 @@ This repository encompasses the weekly work developed for the Web Applications c
 - André Dias
 - Tiago Rodrigues
 
-#### Professors: 
+#### Professor: 
 - Pedro Antunes
