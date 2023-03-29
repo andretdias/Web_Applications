@@ -6,6 +6,7 @@ This repository encompasses the weekly work developed for the Web Applications c
 
 
 #### Team:
+- Ana Araújo
 - André Dias
 - Tiago Rodrigues
 
