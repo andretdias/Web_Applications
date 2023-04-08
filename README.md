@@ -20,7 +20,7 @@ In this course, the application to design was an Ebay killer with a focus on onl
 - Users: Sellers and bidders
 - System requirements: NoSQL, responsive, single page app, works on phones or computers
 
-The actual app development was not the focus of the course, only building the its blueprint.
+The actual app development was not the focus of the course, only building its blueprint.
 
 ## First week - Back-end Handlers
 The goal of the first week was to think about all the microservices needed for the app, compile them in a document and providing all the requests that each microservice allows in a RESTful format.
